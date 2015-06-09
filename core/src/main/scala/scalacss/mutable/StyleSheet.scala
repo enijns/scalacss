@@ -1,5 +1,7 @@
 package scalacss.mutable
 
+import scala.language.experimental.macros
+
 import shapeless.HList
 import shapeless.ops.hlist.Mapper
 import scalacss._
@@ -130,6 +132,9 @@ object StyleSheet {
 
     protected def style(t: ToStyle*)(implicit c: Compose): StyleA =
       register registerS Dsl.style(t: _*)
+
+    protected def styleM(t: ToStyle*)(implicit c: Compose, register: Register): StyleA =
+      macro AutoName.forStyle
 
     protected def style(className: String = null)(t: ToStyle*)(implicit c: Compose): StyleA =
       register registerS Dsl.style(className)(t: _*)

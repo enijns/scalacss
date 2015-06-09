@@ -64,6 +64,14 @@ object ScalaCSS extends Build {
 
   lazy val (core, coreJvm, coreJs) =
     crossDialectProject("core", commonSettings
+      .all(
+        _.settings(
+          libraryDependencies ++= Seq(
+            "org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
+            "org.scala-lang" % "scala-reflect" % scalaVersion.value
+          )
+        )
+      )
       .configure(utestSettings()) //, Gen.attrAliases)
       .addLibs(scalaz.core, shapeless, nyaya.test % Test)
       .jj(_ => initialCommands := "import shapeless._, ops.hlist._, syntax.singleton._, scalacss._")
